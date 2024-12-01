@@ -18,6 +18,14 @@ func main() {
 	file, _ = os.ReadFile("input1.txt")
 	input = string(file)
 	fmt.Println("Part 1:", Part1(input))
+
+	file, _ = os.ReadFile("example_input1.txt")
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
+
+	file, _ = os.ReadFile("input1.txt")
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
 }
 
 func Part1(input string) int {
@@ -48,6 +56,38 @@ func Part1(input string) int {
 			val = -val
 		}
 		sum += val
+	}
+
+	return sum
+}
+
+func Part2(input string) int {
+	var left []int
+	var right []int
+
+	lines := strings.Split(input, "\n")
+	for _, line := range lines {
+		if line == "" {
+			continue
+		}
+
+		nums := strings.Split(line, "   ")
+		leftNum, _ := strconv.ParseInt(nums[0], 10, 64)
+		rightNum, _ := strconv.ParseInt(nums[1], 10, 64)
+
+		left = append(left, int(leftNum))
+		right = append(right, int(rightNum))
+	}
+
+	sum := 0
+	for _, num := range left {
+		multiplier := 0
+		for _, rightNum := range right {
+			if rightNum == num {
+				multiplier++
+			}
+		}
+		sum += num * multiplier
 	}
 
 	return sum
