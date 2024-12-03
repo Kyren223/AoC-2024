@@ -1,12 +1,45 @@
 use std::fs;
 
 fn main() {
-    println!("Hello, world!");
-    let example = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
-    println!("Example: {}", part1(&example));
-    
+    // println!("Hello, world!");
+    // let example = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))";
+    // println!("Example: {}", part1(example));
+    //
+    // let input = fs::read_to_string("input.txt").unwrap();
+    // println!("Part1: {}", part1(input.as_str()));
+
+    let example = "xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))";
+    println!("Example2: {}", part2(example));
+
     let input = fs::read_to_string("input.txt").unwrap();
-    println!("Part1: {}", part1(input.as_str()));
+    println!("Part2: {}", part2(input.as_str()));
+}
+
+fn part2(input: &str) -> u32 {
+    let mut sum = 0;
+    let mut enabled = true;
+    for (i, c) in input.char_indices() {
+        if c == 'm' && enabled {
+            // println!("Doing: {enabled}, {}", &input[i..]);
+            let result = try_parse(&input[i..]);
+            if let Some(v) = result {
+                // println!("Result: {}", v);
+                // println!("Adding: {v}");
+                sum += v
+            }
+        } else if c == 'd' {
+            // println!("DIS: {enabled}, {}", &input[i..]);
+            let sub = &input[i..];
+            if sub.starts_with("do()") {
+                enabled = true;
+                // println!("Enabled")
+            } else if sub.starts_with("don't()") {
+                enabled = false;
+                // println!("Disabled");
+            }
+        }
+    }
+    sum
 }
 
 fn part1(input: &str) -> u32 {
