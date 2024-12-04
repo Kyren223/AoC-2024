@@ -20,82 +20,29 @@ pub fn main() !void {
         try lines.append(copyLine);
     }
 
-    for (lines.items) |line| {
-        std.debug.print("{s}\n", .{line});
-    }
-
-    const length = 3;
+    // for (lines.items) |line| {
+    // std.debug.print("{s}\n", .{line});
+    // }
 
     var count: u32 = 0;
-    count += 0;
     for (lines.items, 0..) |line, uy| {
         lineFor: for (line, 0..) |c, ux| {
-            if (c != 'X') continue :lineFor;
-            const y: isize = @intCast(uy);
-            const x: isize = @intCast(ux);
-            if (x + length < line.len) {
-                const m = line[ux + 1] == 'M';
-                const a = line[ux + 2] == 'A';
-                const s = line[ux + 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
+            if (c != 'A') continue :lineFor;
+            if (@as(isize, @intCast(uy)) - 1 < 0 or uy + 1 >= lines.items.len) {
+                continue :lineFor;
             }
-            if (0 <= x - length) {
-                const m = line[ux - 1] == 'M';
-                const a = line[ux - 2] == 'A';
-                const s = line[ux - 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
+            if (@as(isize, @intCast(ux)) - 1 < 0 or ux + 1 >= lines.items[uy].len) {
+                continue :lineFor;
             }
-            if (0 <= y - length) {
-                const m = lines.items[uy - 1][ux] == 'M';
-                const a = lines.items[uy - 2][ux] == 'A';
-                const s = lines.items[uy - 3][ux] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
-            }
-            if (y + length < lines.items.len) {
-                const m = lines.items[uy + 1][ux] == 'M';
-                const a = lines.items[uy + 2][ux] == 'A';
-                const s = lines.items[uy + 3][ux] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
-            }
-            if (y + length < lines.items.len and x + length < line.len) {
-                const m = lines.items[uy + 1][ux + 1] == 'M';
-                const a = lines.items[uy + 2][ux + 2] == 'A';
-                const s = lines.items[uy + 3][ux + 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
-            }
-            if (0 <= y - length and x + length < line.len) {
-                const m = lines.items[uy - 1][ux + 1] == 'M';
-                const a = lines.items[uy - 2][ux + 2] == 'A';
-                const s = lines.items[uy - 3][ux + 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
-            }
-            if (0 <= y - length and 0 <= x - length) {
-                const m = lines.items[uy - 1][ux - 1] == 'M';
-                const a = lines.items[uy - 2][ux - 2] == 'A';
-                const s = lines.items[uy - 3][ux - 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
-            }
-            if (y + length < lines.items.len and 0 <= x - length) {
-                const m = lines.items[uy + 1][ux - 1] == 'M';
-                const a = lines.items[uy + 2][ux - 2] == 'A';
-                const s = lines.items[uy + 3][ux - 3] == 'S';
-                if (m and a and s) {
-                    count += 1;
-                }
+            const tl = lines.items[uy - 1][ux - 1];
+            const tr = lines.items[uy - 1][ux + 1];
+            const bl = lines.items[uy + 1][ux - 1];
+            const br = lines.items[uy + 1][ux + 1];
+
+            const d1 = (tl == 'M' and br == 'S') or (tl == 'S' and br == 'M');
+            const d2 = (tr == 'M' and bl == 'S') or (tr == 'S' and bl == 'M');
+            if (d1 and d2) {
+                count += 1;
             }
         }
     }
