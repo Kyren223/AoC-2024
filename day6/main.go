@@ -22,19 +22,19 @@ func main() {
 	input = string(file)
 	fmt.Println("Part 1:", Part1(input))
 
-	// file, err = os.ReadFile("example.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2 Example:", Part2(input))
-	//
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+	file, err = os.ReadFile("example.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2 Example:", Part2(input))
+
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
 }
 
 type Pos struct {
@@ -116,5 +116,69 @@ outer:
 }
 
 func Part2(input string) int {
-	return 0
+	guardMap := strings.Split(input, "\n")
+	guardMap = guardMap[:len(guardMap)-1]
+
+	guardOriginal := Pos{}
+	dirOriginal := Pos{x: 0, y: -1}
+
+outer:
+	for y, line := range guardMap {
+		for x, c := range line {
+			if c == '^' {
+				guardOriginal.x = x
+				guardOriginal.y = y
+				break outer
+			}
+		}
+	}
+
+	sum := 0
+	for oy, line := range guardMap {
+		for ox, c := range line {
+			if c == '^' || c == '#' {
+				continue
+			}
+			bline := []byte(guardMap[oy])
+			bline[ox] = '#'
+			guardMap[oy] = string(bline)
+
+			guard := guardOriginal
+			dir := dirOriginal
+			iterations := 0
+			maxIterations := 100000
+			for {
+				iterations++
+				if iterations > maxIterations {
+					break
+				}
+
+				x := guard.x + dir.x
+				y := guard.y + dir.y
+
+				// Bounds check
+				if x < 0 || x > len(guardMap[0])-1 || y < 0 || y > len(guardMap)-1 {
+					break
+				}
+
+				c := guardMap[y][x]
+				if c == '#' {
+					dir.RotateRight()
+				} else {
+					guard.x = x
+					guard.y = y
+				}
+			}
+			if iterations > maxIterations {
+				// Assume loop
+				sum++
+			}
+
+			bline[ox] = '.'
+			guardMap[oy] = string(bline)
+
+		}
+	}
+
+	return sum
 }
