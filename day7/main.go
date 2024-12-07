@@ -14,28 +14,14 @@ func main() {
 		log.Fatalln(err)
 	}
 	input := string(file)
-	fmt.Println("Part 1 Example:", Part1(input))
+	fmt.Println("Part 2 Example:", Part2(input))
 
 	file, err = os.ReadFile("input.txt")
 	if err != nil {
 		log.Fatalln(err)
 	}
 	input = string(file)
-	fmt.Println("Part 1:", Part1(input))
-
-	// file, err = os.ReadFile("example.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2 Example:", Part2(input))
-	//
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+	fmt.Println("Part 2:", Part2(input))
 }
 
 type Test struct {
@@ -43,7 +29,7 @@ type Test struct {
 	operands []int
 }
 
-func Part1(input string) int {
+func Part2(input string) int {
 	var tests []Test
 	for _, line := range strings.Split(input, "\n") {
 		if line == "" {
@@ -93,12 +79,13 @@ func SumOperands(test Test, i, op, sum int) bool {
 		sum += test.operands[i]
 	case 1:
 		sum *= test.operands[i]
+	case 2:
+		sumStr := strconv.Itoa(sum)
+		operandStr := strconv.Itoa(test.operands[i])
+		resultStr := sumStr + operandStr
+		result, _ := strconv.ParseInt(resultStr, 10, 64)
+		sum = int(result)
 	}
 
-	return SumOperands(test, i+1, 0, sum) || SumOperands(test, i+1, 1, sum)
-}
-
-func Part2(input string) int {
-	sum := 0
-	return sum
+	return SumOperands(test, i+1, 0, sum) || SumOperands(test, i+1, 1, sum) || SumOperands(test, i+1, 2, sum)
 }
