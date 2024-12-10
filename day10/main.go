@@ -22,19 +22,19 @@ func main() {
 	input = string(file)
 	fmt.Println("Part 1:", Part1(input))
 
-	// file, err = os.ReadFile("example.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2 Example:", Part2(input))
-	//
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+	file, err = os.ReadFile("example.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2 Example:", Part2(input))
+
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
 }
 
 func Part1(input string) int {
@@ -90,6 +90,40 @@ func Traverse(topMap []string, marks [][]bool, x, y int, height byte) {
 }
 
 func Part2(input string) int {
+	topMap := strings.Split(input, "\n")
+	topMap = topMap[:len(topMap)-1]
+
+	// fmt.Println("Width:", len(antenasMap[0]), "Height:", len(antenasMap))
+
 	sum := 0
+	for y, line := range topMap {
+		for x, c := range line {
+			if c != '0' {
+				continue
+			}
+
+			sum += Traverse2(topMap, x, y, byte(c), 0)
+		}
+	}
+
 	return sum
+}
+
+func Traverse2(topMap []string, x, y int, height byte, sum int) int {
+	if x < 0 || x >= len(topMap[0]) || y < 0 || y >= len(topMap) {
+		return sum
+	}
+	if topMap[y][x] != height {
+		return sum
+	}
+	if topMap[y][x] == '9' {
+		return sum + 1
+	}
+
+	s := sum
+	s += Traverse2(topMap, x+1, y, height+1, sum)
+	s += Traverse2(topMap, x-1, y, height+1, sum)
+	s += Traverse2(topMap, x, y+1, height+1, sum)
+	s += Traverse2(topMap, x, y-1, height+1, sum)
+	return s
 }
