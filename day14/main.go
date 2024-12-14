@@ -288,35 +288,57 @@ func Print(writer io.Writer, robots []Robot, width, height int) {
 }
 
 func IsDense(robots []Robot, width, height int, threshold float64) bool {
-	l := int(threshold * float64(len(robots)) / float64(height))
 	for y := 0; y < height; y++ {
 		line := 0
 		for x := 0; x < width; x++ {
+			hasLine := false
 			for _, robot := range robots {
 				if robot.pos.x == x && robot.pos.y == y {
-					line++
+					hasLine = true
 				}
 			}
-		}
-		if line > l {
-			return true
+			if hasLine {
+				line++
+			} else {
+				line = 0
+			}
+			if line > 30 {
+				return true
+			}
 		}
 	}
 
-	c := int(threshold * float64(len(robots)) / float64(width))
-	for x := 0; x < width; x++ {
-		col := 0
-		for y := 0; y < height; y++ {
-			for _, robot := range robots {
-				if robot.pos.x == x && robot.pos.y == y {
-					col++
-				}
-			}
-		}
-		if col > c {
-			return true
-		}
-	}
+	// l := int(threshold * float64(len(robots)) / float64(height))
+	// for y := 0; y < height; y++ {
+	// 	line := 0
+	// 	for x := 0; x < width; x++ {
+	// 		for _, robot := range robots {
+	// 			if robot.pos.x == x && robot.pos.y == y {
+	// 				line++
+	// 			}
+	// 		}
+	// 	}
+	// 	if line > l {
+	// 		return true
+	// 	}
+	// }
 
 	return false
+	//
+	// c := int(threshold * float64(len(robots)) / float64(width))
+	// for x := 0; x < width; x++ {
+	// 	col := 0
+	// 	for y := 0; y < height; y++ {
+	// 		for _, robot := range robots {
+	// 			if robot.pos.x == x && robot.pos.y == y {
+	// 				col++
+	// 			}
+	// 		}
+	// 	}
+	// 	if col > c {
+	// 		return true
+	// 	}
+	// }
+	//
+	// return false
 }
