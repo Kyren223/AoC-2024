@@ -15,13 +15,13 @@ func main() {
 	input := string(file)
 	fmt.Println("Part 1 Example:", Part1(input))
 
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 1:", Part1(input))
-	//
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 1:", Part1(input))
+
 	// file, err = os.ReadFile("example.txt")
 	// if err != nil {
 	// 	log.Fatalln(err)
@@ -50,90 +50,64 @@ func Part1(input string) int {
 	maze := strings.Split(input, "\n")
 	maze = maze[:len(maze)-1]
 
-	visisted := map[Vec2]struct{}{}
+	visisted := map[Vec2]int{}
 	start := Vec2{}
-	dir := Vec2{1, 0}
+	end := Vec2{}
 	for y, line := range maze {
 		for x, c := range line {
-			if c == 'S' {
+			switch c {
+			case 'E':
+				end = Vec2{x, y}
+			case 'S':
 				start = Vec2{x, y}
 			}
 		}
 	}
 
-	// for _, line := range maze {
-	// 	fmt.Println(line)
-	// }
+	DFS(maze, visisted, end, 0, 1, 1, 0)
+	fmt.Println(start, end)
+	fmt.Println(visisted)
 
-	sum := DFS(maze, visisted, start, dir, 0)
+	// Manually add +1000 cuz it needs to rotate once to be "north"
+	sum := visisted[start] + 1000
 	return sum
 }
 
-func RotateLeft(dir Vec2) Vec2 {
-	if dir.x == 0 && dir.y == 1 {
-		return Vec2{1, 0}
-	} else if dir.x == 1 && dir.y == 0 {
-		return Vec2{0, -1}
-	} else if dir.x == 0 && dir.y == -1 {
-		return Vec2{-1, 0}
-	} else if dir.x == -1 && dir.y == 0 {
-		return Vec2{0, 1}
-	} else {
-		panic(dir)
-	}
-}
-
-func RotateRight(dir Vec2) Vec2 {
-	if dir.x == 0 && dir.y == 1 {
-		return Vec2{-1, 0}
-	} else if dir.x == -1 && dir.y == 0 {
-		return Vec2{0, -1}
-	} else if dir.x == 0 && dir.y == -1 {
-		return Vec2{1, 0}
-	} else if dir.x == 1 && dir.y == 0 {
-		return Vec2{0, 1}
-	} else {
-		panic(dir)
-	}
-}
-
-func DFS(maze []string, visited map[Vec2]struct{}, pos, dir Vec2, depth int) int {
-	// fmt.Println(depth, pos, dir)
-	const infinity = 100000000000
-
+func DFS(maze []string, visited map[Vec2]int, pos Vec2, cost, xcost, ycost int, depth int) {
 	if pos.x < 0 || pos.x >= len(maze[0]) || pos.y < 0 || pos.y >= len(maze) {
-		return infinity
+		return
 	}
-
-	if _, ok := visited[pos]; ok {
-		return infinity
-	}
-
 	c := maze[pos.y][pos.x]
-	switch c {
-	case '#':
-		return infinity
-	case 'E':
-		return 0
+	if c == '#' {
+		return
 	}
 
-	visited[pos] = struct{}{}
-
-	// Normal case
-	left := RotateLeft(dir)
-	right := RotateRight(dir)
-	// back := RotateLeft(RotateLeft(dir))
-
-	scoreForward := DFS(maze, visited, pos.Add(dir), dir, depth+1) + 1
-	scoreLeft := DFS(maze, visited, pos.Add(left), left, depth+1) + 1001
-	scoreRight := DFS(maze, visited, pos.Add(right), right, depth+1) + 1001
-	// scoreBack := DFS(maze, visited, pos.Add(back), back, depth+1) + 2001
-
-	if depth == 30 {
-		fmt.Println(depth, pos, scoreForward, scoreLeft, scoreRight)
+	if pos.x == 13 && pos.y == 13 {
+		fmt.Println("13YO")
 	}
 
-	return min(scoreForward, scoreLeft, scoreRight)
+	if visistedCost, ok := visited[pos]; ok && visistedCost <= cost {
+		return
+	}
+
+	visited[pos] = cost
+	if c == 'S' {
+
+	}
+
+	left := pos
+	left.x -= 1
+	right := pos
+	right.x += 1
+	top := pos
+	top.y -= 1
+	bottom := pos
+	bottom.y += 1
+
+	DFS(maze, visited, left, cost+xcost, 1, 1001, depth+1)
+	DFS(maze, visited, right, cost+xcost, 1, 1001, depth+1)
+	DFS(maze, visited, top, cost+ycost, 1001, 1, depth+1)
+	DFS(maze, visited, bottom, cost+ycost, 1001, 1, depth+1)
 }
 
 func Part2(input string) int {
