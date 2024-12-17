@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"math"
@@ -107,9 +106,6 @@ func VM(code []byte, a, b, c int) []byte {
 			b ^= c
 		case out:
 			combo := byte(Combo(operand, a, b, c) % 8)
-			if len(code) > len(output) && code[len(output)] != combo {
-				return output // TO speed things
-			}
 			output = append(output, combo)
 		case bdv:
 			b = a / int(math.Pow(2, float64(Combo(operand, a, b, c))))
@@ -158,26 +154,9 @@ func Part2(input string) int {
 	}
 	fmt.Println(a, b, c, code)
 
-	// i := 6833800000
-	// i := 1494380000
-	i := 0
-	// w := int(9223372036854775807)
-	for {
-		out := VM(code, i, b, c)
-		if bytes.Equal(code, out) {
-			fmt.Println()
-			return i
-		}
-		// if i == 117440 {
-		// 	fmt.Println(code, out)
-		// 	break
-		// }
-		i++
-		if i%1000000 == 0 {
-			fmt.Print(i)
-			fmt.Print(",")
-		}
-	}
-	fmt.Println()
+	a = 105817653857465
+	out := VM(code, a, b, c)
+	fmt.Println(out)
+
 	return 0
 }
