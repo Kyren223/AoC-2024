@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"math"
@@ -30,13 +31,13 @@ func main() {
 	// }
 	// input = string(file)
 	// fmt.Println("Part 2 Example:", Part2(input))
-	//
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
 }
 
 func Part1(input string) int {
@@ -85,15 +86,12 @@ const (
 	cdv
 )
 
-func VM(code []byte, a, b, c int) []int {
+func VM(code []byte, a, b, c int) []byte {
 	ip := 0
-	output := []int{}
+	output := []byte{}
 	for 0 <= ip && ip < len(code)-1 {
 		opcode := code[ip]
 		operand := code[ip+1]
-		// _ = opcode
-		// _ = operand
-		// fmt.Println(opcode, operand)
 		switch opcode {
 		case adv:
 			a = a / int(math.Pow(2, float64(Combo(operand, a, b, c))))
@@ -108,7 +106,11 @@ func VM(code []byte, a, b, c int) []int {
 		case bxc:
 			b ^= c
 		case out:
-			output = append(output, Combo(operand, a, b, c)%8)
+			combo := byte(Combo(operand, a, b, c) % 8)
+			if len(code) > len(output) && code[len(output)] != combo {
+				return output // TO speed things
+			}
+			output = append(output, combo)
 		case bdv:
 			b = a / int(math.Pow(2, float64(Combo(operand, a, b, c))))
 		case cdv:
@@ -136,6 +138,46 @@ func Combo(operand byte, a, b, c int) int {
 }
 
 func Part2(input string) int {
-	sum := 0
-	return sum
+	lines := strings.Split(input, "\n")
+	a64, _ := strconv.ParseInt(strings.TrimSpace(strings.Split(lines[0], ":")[1]), 10, 64)
+	b64, _ := strconv.ParseInt(strings.TrimSpace(strings.Split(lines[1], ":")[1]), 10, 64)
+	c64, _ := strconv.ParseInt(strings.TrimSpace(strings.Split(lines[2], ":")[1]), 10, 64)
+
+	a := int(a64)
+	b := int(b64)
+	c := int(c64)
+
+	var code []byte
+
+	programStr := strings.Split(lines[4], " ")[1]
+	codeStr := strings.Split(programStr, ",")
+	for _, bitStr := range codeStr {
+		bit64, _ := strconv.ParseInt(bitStr, 10, 64)
+		bit := byte(bit64)
+		code = append(code, bit)
+	}
+	fmt.Println(a, b, c, code)
+
+	// i := 6833800000
+	// i := 1494380000
+	i := 0
+	// w := int(9223372036854775807)
+	for {
+		out := VM(code, i, b, c)
+		if bytes.Equal(code, out) {
+			fmt.Println()
+			return i
+		}
+		// if i == 117440 {
+		// 	fmt.Println(code, out)
+		// 	break
+		// }
+		i++
+		if i%1000000 == 0 {
+			fmt.Print(i)
+			fmt.Print(",")
+		}
+	}
+	fmt.Println()
+	return 0
 }
