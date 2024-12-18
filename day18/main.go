@@ -24,19 +24,19 @@ func main() {
 	input = string(file)
 	fmt.Println("Part 1:", Part1(input, false))
 
-	// file, err = os.ReadFile("example.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2 Example:", Part2(input))
-	//
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+	file, err = os.ReadFile("example.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2 Example:", Part2(input, true))
+
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input, false))
 }
 
 type Item struct {
@@ -213,7 +213,43 @@ func Dikstra(s Pos, e Pos, length int, plane [][]bool) int {
 	return -1
 }
 
-func Part2(input string) int {
-	sum := 0
-	return sum
+func Part2(input string, example bool) int {
+	var positions []Pos
+	for _, line := range strings.Split(input, "\n") {
+		if line == "" {
+			continue
+		}
+		x, _ := strconv.ParseInt(strings.Split(line, ",")[0], 10, 64)
+		y, _ := strconv.ParseInt(strings.Split(line, ",")[1], 10, 64)
+		positions = append(positions, Pos{x: int(x), y: int(y)})
+	}
+
+	length := 71
+	if example {
+		length = 7
+	}
+
+	var plane [][]bool
+	for y := 0; y < length; y++ {
+		plane = append(plane, []bool{})
+		for x := 0; x < length; x++ {
+			wall := false
+			plane[y] = append(plane[y], wall)
+		}
+	}
+
+	for i := 0; i < len(positions); i++ {
+		plane[positions[i].y][positions[i].x] = true
+
+		e := Pos{70, 70}
+		if example {
+			e = Pos{6, 6}
+		}
+
+		if Dikstra(Pos{0, 0}, e, length, plane) == -1 {
+			fmt.Println(positions[i])
+			break
+		}
+	}
+	return 0
 }
