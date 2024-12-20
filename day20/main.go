@@ -508,3 +508,4 @@ func DikstraPath(s Pos, e Pos, plane [][]byte) (int, [][]Pos) {
 
 	return -1, visited
 }
+// did it
