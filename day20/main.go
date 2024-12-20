@@ -239,43 +239,57 @@ func Part2(input string) int {
 	// fmt.Println(start, end)
 
 	// fmt.Println(len(racetrack), len(racetrack[0]))
-	baseline := Dikstra(start, end, racetrack)
+	baseline, visited := DikstraPath(start, end, racetrack)
+
+	var path []Pos
+	pos := end
+	for pos.x != start.x || pos.y != start.y {
+		path = append(path, pos)
+		pos = visited[pos.y][pos.x]
+	}
+
+	path = path[1:]
+	path = append(path, start)
+	fmt.Println(len(path))
+	// fmt.Println(path)
 
 	iters := 0
 	sum := 0
-	for y, line := range racetrack {
-		for x, c := range line {
-			if c == '#' {
-				continue
-			}
-			for y2 := y - 21; y2 < y+21; y2++ {
-				for x2 := x - 21; x2 < x+21; x2++ {
-					if x2 < 0 || y2 < 0 || y2 >= len(racetrack) || x2 >= len(racetrack[0]){
-						continue
-					}
-					if racetrack[y2][x2] == '#' {
-						continue
-					}
-					distance := (x2-x)*(x2-x) + (y2-y)*(y2-y)
-					if distance > 20*20 {
-						continue
-					}
+	for _, pos := range path {
+		if pos.x < 0 || pos.y < 0 || pos.y >= len(racetrack) || pos.x >= len(racetrack[0]) {
+			continue
+		}
+		if racetrack[pos.y][pos.x] == '#' {
+			continue
+		}
+		for y2 := pos.y - 21; y2 < pos.y+21; y2++ {
+			for x2 := pos.x - 21; x2 < pos.x+21; x2++ {
+				if x2 < 0 || y2 < 0 || y2 >= len(racetrack) || x2 >= len(racetrack[0]) {
+					continue
+				}
+				if racetrack[y2][x2] == '#' {
+					continue
+				}
 
-					distance = DikstraNoWalls(Pos{x, y}, Pos{x2, y2}, racetrack)
-					if distance == -1 {
-						continue
-					}
+				distance := (x2-pos.x)*(x2-pos.x) + (y2-pos.y)*(y2-pos.y)
+				if distance > 20*20 {
+					continue
+				}
 
-					cheated := Dikstra2(start, end, racetrack, Pos{x, y}, Pos{x2, y2}, distance)
+				distance = DikstraNoWalls(pos, Pos{x2, y2}, racetrack)
+				if distance == -1 {
+					continue
+				}
 
-					if baseline-cheated >= 100 {
-						sum++
-					}
+				cheated := Dikstra2(start, end, racetrack, pos, Pos{x2, y2}, distance)
+
+				if baseline-cheated >= 100 {
+					sum++
 				}
 			}
-			fmt.Println(iters)
-			iters++
 		}
+		fmt.Println(iters)
+		iters++
 	}
 
 	return sum
@@ -311,7 +325,7 @@ func Dikstra2(s Pos, e Pos, plane [][]byte, cheatS Pos, cheatE Pos, cheatD int) 
 					break
 				}
 			}
-			if i != nil && i.priority > distance+cheatD {
+			if i != nil && i.priority >= distance+cheatD {
 				pq.update(i, current, cheatE, distance+cheatD)
 			} else if visited[cheatE.y][cheatE.x] == -1 {
 				heap.Push(&pq, &Item{current, cheatE, distance + cheatD, -1})
@@ -429,4 +443,68 @@ func DikstraNoWalls(s Pos, e Pos, plane [][]byte) int {
 	}
 
 	return -1
+}
+
+func DikstraPath(s Pos, e Pos, plane [][]byte) (int, [][]Pos) {
+	pq := make(PriorityQueue, 0)
+	heap.Init(&pq)
+
+	visited := make([][]Pos, len(plane))
+	for i := 0; i < len(plane); i++ {
+		visited[i] = make([]Pos, len(plane[0]))
+		for j := 0; j < len(plane[0]); j++ {
+			visited[i][j] = Pos{-1, -1}
+		}
+	}
+
+	previous := Pos{-1, -1}
+	current := s
+	distance := 0
+
+	for {
+		visited[current.y][current.x] = previous
+
+		if current.x == e.x && current.y == e.y {
+			return distance, visited
+		}
+
+		arr := []Pos{current, current, current, current}
+		arr[0].y -= 1
+		arr[1].y += 1
+		arr[2].x -= 1
+		arr[3].x += 1
+
+		for _, pos := range arr {
+			if pos.x < 0 || pos.y < 0 || pos.y >= len(plane) || pos.x >= len(plane[0]) {
+				continue
+			}
+			if plane[pos.y][pos.x] == '#' {
+				continue
+			}
+
+			var i *Item = nil
+			for _, item := range pq {
+				if item.position.x == pos.x && item.position.y == pos.y {
+					i = item
+					break
+				}
+			}
+			if i != nil && i.priority > distance {
+				pq.update(i, current, pos, distance+1)
+			} else if visited[pos.y][pos.x].x == -1 {
+				heap.Push(&pq, &Item{current, pos, distance + 1, -1})
+			}
+		}
+
+		if pq.Len() == 0 {
+			break
+		}
+
+		item := heap.Pop(&pq).(*Item)
+		previous = item.fromPosition
+		current = item.position
+		distance = item.priority
+	}
+
+	return -1, visited
 }
