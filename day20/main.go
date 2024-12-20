@@ -30,12 +30,12 @@ func main() {
 	input = string(file)
 	fmt.Println("Part 2 Example:", Part2(input))
 
-	// file, err = os.ReadFile("input.txt")
-	// if err != nil {
-	// 	log.Fatalln(err)
-	// }
-	// input = string(file)
-	// fmt.Println("Part 2:", Part2(input))
+	file, err = os.ReadFile("input.txt")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	input = string(file)
+	fmt.Println("Part 2:", Part2(input))
 }
 
 type Item struct {
@@ -241,25 +241,44 @@ func Part2(input string) int {
 	// fmt.Println(len(racetrack), len(racetrack[0]))
 	baseline := Dikstra(start, end, racetrack)
 
+	iters := 0
 	sum := 0
 	for y, line := range racetrack {
 		for x, c := range line {
 			if c == '#' {
 				continue
 			}
+			for y2, line2 := range racetrack {
+				for x2, c2 := range line2 {
+					if c2 == '#' {
+						continue
+					}
+					distance := (x2-x)*(x2-x) + (y2-y)*(y2-y)
+					if distance > 20*20 {
+						continue
+					}
 
-			cheated := Dikstra2(start, end, racetrack, Pos{x, y})
+					distance = DikstraNoWalls(Pos{x, y}, Pos{x2, y2}, racetrack)
+					if distance == -1 {
+						continue
+					}
 
-			if baseline-cheated == 76 {
-				sum++
+					cheated := Dikstra2(start, end, racetrack, Pos{x, y}, Pos{x2, y2}, distance)
+
+					if baseline-cheated >= 100 {
+						sum++
+					}
+				}
 			}
+			fmt.Println(iters)
+			iters++
 		}
 	}
 
 	return sum
 }
 
-func Dikstra2(s Pos, e Pos, plane [][]byte, cheat Pos) int {
+func Dikstra2(s Pos, e Pos, plane [][]byte, cheatS Pos, cheatE Pos, cheatD int) int {
 	pq := make(PriorityQueue, 0)
 	heap.Init(&pq)
 
@@ -281,6 +300,21 @@ func Dikstra2(s Pos, e Pos, plane [][]byte, cheat Pos) int {
 
 		visited[current.y][current.x] = 0
 
+		if current.x == cheatS.x && current.y == cheatS.y {
+			var i *Item = nil
+			for _, item := range pq {
+				if item.position.x == cheatE.x && item.position.y == cheatE.y {
+					i = item
+					break
+				}
+			}
+			if i != nil && i.priority > distance+cheatD {
+				pq.update(i, current, cheatE, distance+cheatD)
+			} else if visited[cheatE.y][cheatE.x] == -1 {
+				heap.Push(&pq, &Item{current, cheatE, distance + cheatD, -1})
+			}
+		}
+
 		arr := []Pos{current, current, current, current}
 		arr[0].y -= 1
 		arr[1].y += 1
@@ -292,10 +326,7 @@ func Dikstra2(s Pos, e Pos, plane [][]byte, cheat Pos) int {
 				continue
 			}
 			if plane[pos.y][pos.x] == '#' {
-				distance := DikstraNoWalls(cheat, pos, plane)
-				if distance > 19 {
-					continue
-				}
+				continue
 			}
 
 			var i *Item = nil
