@@ -248,9 +248,12 @@ func Part2(input string) int {
 			if c == '#' {
 				continue
 			}
-			for y2, line2 := range racetrack {
-				for x2, c2 := range line2 {
-					if c2 == '#' {
+			for y2 := y - 21; y2 < y+21; y2++ {
+				for x2 := x - 21; x2 < x+21; x2++ {
+					if x2 < 0 || y2 < 0 || y2 >= len(racetrack) || x2 >= len(racetrack[0]){
+						continue
+					}
+					if racetrack[y2][x2] == '#' {
 						continue
 					}
 					distance := (x2-x)*(x2-x) + (y2-y)*(y2-y)
