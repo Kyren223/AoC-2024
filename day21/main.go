@@ -43,29 +43,29 @@ func Part1(input string) int {
 	codes := strings.Split(input, "\n")
 	codes = codes[:len(codes)-1]
 
-	for key, val := range numpadPaths {
-		fmt.Print(key)
-		fmt.Print(" [")
-		for i, s := range val {
-			if i != 0 {
-				fmt.Print(" ")
-			}
-			fmt.Print(string(s))
-		}
-		fmt.Print("]\n")
-	}
+	// for key, val := range numpadPaths {
+	// 	fmt.Print(key)
+	// 	fmt.Print(" [")
+	// 	for i, s := range val {
+	// 		if i != 0 {
+	// 			fmt.Print(" ")
+	// 		}
+	// 		fmt.Print(string(s))
+	// 	}
+	// 	fmt.Print("]\n")
+	// }
 
-	for key, val := range keypadPaths {
-		fmt.Print(key)
-		fmt.Print(" [")
-		for i, s := range val {
-			if i != 0 {
-				fmt.Print(" ")
-			}
-			fmt.Print(string(s))
-		}
-		fmt.Print("]\n")
-	}
+	// for key, val := range keypadPaths {
+	// 	fmt.Print(key)
+	// 	fmt.Print(" [")
+	// 	for i, s := range val {
+	// 		if i != 0 {
+	// 			fmt.Print(" ")
+	// 		}
+	// 		fmt.Print(string(s))
+	// 	}
+	// 	fmt.Print("]\n")
+	// }
 
 	sum := 0
 	for _, code := range codes {
@@ -180,53 +180,154 @@ func Get(m map[string][][]byte, a, b byte) [][]byte {
 }
 
 func ShortestPath(code string) []byte {
-	firstPrev := byte('A')
-	firstMoves := []byte{}
-	for i := range code {
-		firstPaths := Get(numpadPaths, firstPrev, code[i])
-		var bestFirstPaths []byte = nil
-
-		for _, firstPath := range firstPaths {
-			secondPrev := byte('A')
-			secondMoves := []byte{}
-			for j := range firstPath {
-				secondPaths := Get(keypadPaths, secondPrev, firstPath[j])
-				var bestSecondPath []byte = nil
-
-				for _, secondPath := range secondPaths {
-					thirdPrev := byte('A')
-					thirdMoves := []byte{}
-					for k := range secondPath {
-						thirdPaths := Get(keypadPaths, thirdPrev, secondPath[k])
-						// All lengths are equal so it doesn't matter
-						// Just take the first
-						bestThirdPath := thirdPaths[0]
-						thirdMoves = append(thirdMoves, bestThirdPath...)
-
-						thirdPrev = secondPath[k]
-					}
-
-					if bestSecondPath == nil || len(thirdMoves) < len(bestSecondPath) {
-						bestSecondPath = thirdMoves
-					}
-				}
-
-				secondMoves = append(secondMoves, bestSecondPath...)
-
-				secondPrev = firstPath[j]
-
-				if bestFirstPaths == nil || len(secondMoves) < len(bestFirstPaths) {
-					bestFirstPaths = secondMoves
-				}
-			}
-		}
-
-		firstMoves = append(firstMoves, bestFirstPaths...)
-
-		firstPrev = code[i]
+	// firstPrev := byte('A')
+	firstMoves := GetBestMoves(numpadPaths, code, 'A', 0, []byte(""))
+	for key, val := range firstMoves {
+		fmt.Println(key, string(val))
 	}
 
-	return firstMoves
+	secondMoves := [][]byte{}
+	for _, firstMove := range firstMoves {
+		moves := GetBestMoves(keypadPaths, string(firstMove), 'A', 0, []byte(""))
+		secondMoves = append(secondMoves, moves...)
+	}
+	bestSecondMoves := [][]byte{}
+	for _, path := range secondMoves {
+		if len(bestSecondMoves) == 0 {
+			bestSecondMoves = append(bestSecondMoves, path)
+			continue
+		}
+		if len(bestSecondMoves[0]) == len(path) {
+			bestSecondMoves = append(bestSecondMoves, path)
+			continue
+		}
+		if len(bestSecondMoves[0]) > len(path) {
+			bestSecondMoves = [][]byte{path}
+		}
+	}
+	for key, val := range bestSecondMoves {
+		fmt.Println(key, string(val))
+	}
+
+	// thirdMoves := [][]byte{}
+	for _, secondMove := range bestSecondMoves {
+		moves := GetBestMoves(keypadPaths, string(secondMove), 'A', 0, []byte(""))
+		fmt.Println(len(moves))
+		// thirdMoves = append(thirdMoves, moves...)
+	}
+	// bestthirdMoves := [][]byte{}
+	// for _, path := range thirdMoves {
+	// 	if len(bestthirdMoves) == 0 {
+	// 		bestthirdMoves = append(bestthirdMoves, path)
+	// 		continue
+	// 	}
+	// 	if len(bestthirdMoves[0]) == len(path) {
+	// 		bestthirdMoves = append(bestthirdMoves, path)
+	// 		continue
+	// 	}
+	// 	if len(bestthirdMoves[0]) > len(path) {
+	// 		bestthirdMoves = [][]byte{path}
+	// 	}
+	// }
+	// for key, val := range bestthirdMoves {
+	// 	fmt.Println(key, string(val))
+	// }
+
+	return nil
+}
+
+func GetBestMoves(cache map[string][][]byte, code string, previous byte, index int, path []byte) [][]byte {
+	if index == len(code) {
+		return [][]byte{path}
+	}
+
+	newPaths := [][]byte{}
+	paths := Get(cache, previous, code[index])
+	for _, p := range paths {
+		copyPath := slices.Clone(path)
+		copyPath = append(copyPath, p...)
+		ps := GetBestMoves(cache, code, code[index], index+1, copyPath)
+
+		newPs := [][]byte{}
+		for _, p := range ps {
+			if len(newPs) == 0 {
+				newPs = append(newPs, p)
+				continue
+			}
+			if len(newPs[0]) == len(p) {
+				newPs = append(newPs, p)
+				continue
+			}
+			if len(newPs[0]) > len(p) {
+				newPs = [][]byte{p}
+			}
+		}
+		newPaths = append(newPaths, newPs...)
+	}
+
+	bestPaths := [][]byte{}
+	for _, path := range newPaths {
+		if len(bestPaths) == 0 {
+			bestPaths = append(bestPaths, path)
+			continue
+		}
+		if len(bestPaths[0]) == len(path) {
+			bestPaths = append(bestPaths, path)
+			continue
+		}
+		if len(bestPaths[0]) > len(path) {
+			bestPaths = [][]byte{path}
+		}
+	}
+
+	return bestPaths
+}
+
+func GetBestMovesWithMemo(cache map[string][][]byte, code string, previous byte, index int, path []byte) [][]byte {
+	if index == len(code) {
+		return [][]byte{path}
+	}
+
+	newPaths := [][]byte{}
+	paths := Get(cache, previous, code[index])
+	for _, p := range paths {
+		copyPath := slices.Clone(path)
+		copyPath = append(copyPath, p...)
+		ps := GetBestMovesWithMemo(cache, code, code[index], index+1, copyPath)
+
+		newPs := [][]byte{}
+		for _, p := range ps {
+			if len(newPs) == 0 {
+				newPs = append(newPs, p)
+				continue
+			}
+			if len(newPs[0]) == len(p) {
+				newPs = append(newPs, p)
+				continue
+			}
+			if len(newPs[0]) > len(p) {
+				newPs = [][]byte{p}
+			}
+		}
+		newPaths = append(newPaths, newPs...)
+	}
+
+	bestPaths := [][]byte{}
+	for _, path := range newPaths {
+		if len(bestPaths) == 0 {
+			bestPaths = append(bestPaths, path)
+			continue
+		}
+		if len(bestPaths[0]) == len(path) {
+			bestPaths = append(bestPaths, path)
+			continue
+		}
+		if len(bestPaths[0]) > len(path) {
+			bestPaths = [][]byte{path}
+		}
+	}
+
+	return bestPaths
 }
 
 func Part2(input string) int {
