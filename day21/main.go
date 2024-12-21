@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -37,8 +38,18 @@ func main() {
 }
 
 func Part1(input string) int {
+	codes := strings.Split(input, "\n")
+	codes = codes[:len(codes)-1]
+
+
 	sum := 0
 	return sum
+}
+
+func ShortestPath(code string) []byte {
+
+
+	return nil
 }
 
 func Part2(input string) int {
