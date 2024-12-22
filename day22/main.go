@@ -146,6 +146,7 @@ func Part2(input string) int {
 	}
 
 	fmt.Println(bestBananas, bestN1, bestN2, bestN3, bestN4)
+	// Got it
 
 	sum := 0
 	return sum
