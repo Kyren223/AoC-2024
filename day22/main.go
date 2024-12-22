@@ -110,35 +110,42 @@ func Part2(input string) int {
 	}
 
 	bestBananas := 0
-	monkeyI := -1
-	pricesI := -1
+	bestN1 := int8(-10)
+	bestN2 := int8(-10)
+	bestN3 := int8(-10)
+	bestN4 := int8(-10)
 
-	for monkE, monkey := range monkeys {
-		for i := 0; i < 2000-4; i++ {
-			bananas := 0
-			for _, monk := range monkeys {
-				for j := 0; j < 2000-4; j++ {
-					cmp := monkey[i].change ^ monk[j].change
-					cmp |= monkey[i+1].change ^ monk[j+1].change
-					cmp |= monkey[i+2].change ^ monk[j+2].change
-					cmp |= monkey[i+3].change ^ monk[j+3].change
-					if cmp == 0 {
-						bananas += int(monk[j+3].price)
-						break
+	for n1 := int8(-9); n1 < 10; n1++ {
+		for n2 := int8(-9); n2 < 10; n2++ {
+			for n3 := int8(-9); n3 < 10; n3++ {
+				for n4 := int8(-9); n4 < 10; n4++ {
+					bananas := 0
+					for _, monk := range monkeys {
+						for j := 0; j < 2000-4; j++ {
+							cmp := n1 ^ monk[j].change
+							cmp |= n2 ^ monk[j+1].change
+							cmp |= n3 ^ monk[j+2].change
+							cmp |= n4 ^ monk[j+3].change
+							if cmp == 0 {
+								bananas += int(monk[j+3].price)
+								break
+							}
+						}
+					}
+					if bananas > bestBananas {
+						bestBananas = bananas
+						bestN1 = n1
+						bestN2 = n2
+						bestN3 = n3
+						bestN4 = n4
 					}
 				}
 			}
-			if bananas > bestBananas {
-				bestBananas = bananas
-				monkeyI = monkE
-				pricesI = i
-			}
+			fmt.Println(n1, n2)
 		}
 	}
 
-	fmt.Println(bestBananas, monkeyI, pricesI)
-	monkey := monkeys[monkeyI]
-	fmt.Println(monkey[pricesI], monkey[pricesI+1], monkey[pricesI+2], monkey[pricesI+3])
+	fmt.Println(bestBananas, bestN1, bestN2, bestN3, bestN4)
 
 	sum := 0
 	return sum
