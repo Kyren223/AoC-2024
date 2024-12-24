@@ -89,85 +89,38 @@ y42: 1
 y43: 0
 y44: 1
 
-mjw AND bvt -> bjv
-y41 XOR x41 -> fkk
 
 pth AND djn -> mtn
 tjr OR hgs -> fkb
 
 
-x32 XOR y32 -> bvs
 
 
-x35 AND y35 -> dsc
-svn AND vsb -> fmg
-y38 AND x38 -> ngh
 x44 AND y44 -> tmh
-x37 XOR y37 -> bkk
 
-fmg OR rcq -> hth
-x42 XOR y42 -> jdh
 x42 AND y42 -> jsf
 
-jdk OR rpp -> mjw
-x43 XOR y43 -> djn
 jfb OR jsf -> pth
-y29 XOR x29 -> mfw
-y33 XOR x33 -> wsk
 
 y41 AND x41 -> tjr
-ffp OR shb -> vbn
-x40 XOR y40 -> bvt
-
-y39 XOR x39 -> vqr
 
 
 
-x37 AND y37 -> ffp
+
 x43 AND y43 -> vcd
-wbp AND vbw -> vnj
 
 
 
 
-y40 AND x40 -> mbk
-qfg OR vwc -> vbw
-vbn AND vft -> rfr
-hth AND mfw -> qfg
 fkk AND gvm -> hgs
 
-y29 AND x29 -> vwc
-kgf AND ftq -> wmv
-x35 XOR y35 -> rfc
 
 
 
-y44 XOR x44 -> qcq
-dsc OR prv -> ftq
-wsk AND vms -> bpw
 
-vqr XOR vbt -> rpp
-y34 XOR x34 -> wpp
-rnt AND rfc -> prv
-dfh AND fvr -> qnd
 
 vcd OR mtn -> sjs
 
-y34 AND x34 -> cgd
-
-btn OR cgd -> rnt
-
-
-
-rth OR wmv -> rsj
-
-kqm AND dmp -> vnn
-
-y36 XOR x36 -> kgf
-y27 AND x27 -> dcr
-
-
-ktr OR bpw -> fdr
 
 
 
@@ -176,35 +129,24 @@ ktr OR bpw -> fdr
 
 
 
-npq OR ckn -> vms
-wpp AND fdr -> btn
-x30 AND y30 -> tvj
 
-x28 AND y28 -> rcq
-x36 AND y36 -> rth
-vnn OR jwg -> jth
+
+
+
+
+
+
+
+
 sjs AND qcq -> jwh
 
 
-rsj AND bkk -> shb
-x32 AND y32 -> ckn
-x38 XOR y38 -> vft
 fkb AND jdh -> jfb
-x31 XOR y31 -> kqm
 
 
-x31 AND y31 -> jwg
-jth AND bvs -> npq
-
-bjv OR mbk -> gvm
-y39 AND x39 -> jdk
 
 
-y33 AND x33 -> ktr
-qnd OR dcr -> vsb
-ngh OR rfr -> vbt
-y30 XOR x30 -> wbp
-tvj OR vnj -> dmp
+
 
 # Xor
 x00 XOR y00 -> z00 # Done
@@ -235,7 +177,23 @@ y24 XOR x24 -> hnr # Done
 x25 XOR y25 -> rjd # Done
 y26 XOR x26 -> tpb # Done
 y27 XOR x27 -> dfh # Done
-x28 XOR y28 -> svn
+x28 XOR y28 -> svn # Done
+y29 XOR x29 -> mfw # Done
+y30 XOR x30 -> wbp # Done
+x31 XOR y31 -> kqm # Done
+x32 XOR y32 -> bvs # Done
+y33 XOR x33 -> wsk # Done
+y34 XOR x34 -> wpp # Done
+x35 XOR y35 -> rfc # Done
+y36 XOR x36 -> kgf # Done
+x37 XOR y37 -> bkk # Done
+x38 XOR y38 -> vft # Done
+y39 XOR x39 -> vqr # Done
+x40 XOR y40 -> bvt # Done
+y41 XOR x41 -> fkk # Done
+x42 XOR y42 -> jdh # Done
+x43 XOR y43 -> djn
+y44 XOR x44 -> qcq
 
 # Carries
 x00 AND y00 -> rfg # First carry
@@ -344,8 +302,65 @@ fkt AND tpb -> dbw
 x26 AND y26 -> tpw
 dbw OR tpw -> fvr
 
+dfh AND fvr -> qnd
+y27 AND x27 -> dcr
+qnd OR dcr -> vsb
+
+svn AND vsb -> fmg
+x28 AND y28 -> rcq
+fmg OR rcq -> hth
+
+hth AND mfw -> qfg
+y29 AND x29 -> vwc
+qfg OR vwc -> vbw
+
+wbp AND vbw -> vnj
+x30 AND y30 -> tvj
+tvj OR vnj -> dmp
+
+kqm AND dmp -> vnn
+x31 AND y31 -> jwg
+vnn OR jwg -> jth
+
+jth AND bvs -> npq
+x32 AND y32 -> ckn
+npq OR ckn -> vms
+
+wsk AND vms -> bpw
+y33 AND x33 -> ktr
+ktr OR bpw -> fdr
+
+wpp AND fdr -> btn
+y34 AND x34 -> cgd
+btn OR cgd -> rnt
+
+rnt AND rfc -> prv
+x35 AND y35 -> dsc
+dsc OR prv -> ftq
+
+kgf AND ftq -> wmv
+x36 AND y36 -> rth
+rth OR wmv -> rsj
+
+rsj AND bkk -> shb
+x37 AND y37 -> ffp
+ffp OR shb -> vbn
+
 # Working
 
+vbn AND vft -> rfr
+y38 AND x38 -> ngh
+ngh OR rfr -> vbt # Probably? if 1
+
+vqr XOR vbt -> rpp 
+y39 AND x39 -> jdk
+jdk OR rpp -> mjw # Fine
+
+mjw AND bvt -> bjv
+y40 AND x40 -> mbk
+bjv OR mbk -> gvm
+
+# Oh wait I found it, it's switching between rpp and Z whatever
 
 # Z
 x00 XOR y00 -> z00 # Correct
@@ -376,21 +391,19 @@ hnr XOR kdf -> z24 # Correct
 ddt XOR rjd -> z25 # Correct
 fkt XOR tpb -> z26 # Correct
 dfh XOR fvr -> z27 # Correct
-vsb XOR svn -> z28
-mfw XOR hth -> z29
-wbp XOR vbw -> z30
-kqm XOR dmp -> z31
-bvs XOR jth -> z32
-vms XOR wsk -> z33
-fdr XOR wpp -> z34
-rnt XOR rfc -> z35
-kgf XOR ftq -> z36
-rsj XOR bkk -> z37
-vft XOR vbn -> z38
-vbt AND vqr -> z39 # That's sus lol, let me investigate just this
-# Actually z45 is also weird, so maybe there r other steps
-# I will just finish it manually fine
-mjw XOR bvt -> z40
+vsb XOR svn -> z28 # Correct
+mfw XOR hth -> z29 # Correct
+wbp XOR vbw -> z30 # Correct
+kqm XOR dmp -> z31 # Correct
+bvs XOR jth -> z32 # Correct
+vms XOR wsk -> z33 # Correct
+fdr XOR wpp -> z34 # Correct
+rnt XOR rfc -> z35 # Correct
+kgf XOR ftq -> z36 # Correct
+rsj XOR bkk -> z37 # Correct
+vft XOR vbn -> z38 # Correct
+vbt AND vqr -> z39 # Probably, if vbt evaluates to 1
+mjw XOR bvt -> z40 # Correct
 gvm XOR fkk -> z41
 jdh XOR fkb -> z42
 djn XOR pth -> z43
@@ -401,5 +414,5 @@ jwh OR tmh -> z45
 1. FDV and DBP
 2. CKJ and Z15
 3. KDF and Z23
-4.
+4. RPP and Z39
 
