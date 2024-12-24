@@ -1,0 +1,395 @@
+x00: 1
+x01: 0
+x02: 1
+x03: 1
+x04: 0
+x05: 0
+x06: 1
+x07: 1
+x08: 0
+x09: 1
+x10: 1
+x11: 1
+x12: 1
+x13: 0
+x14: 1
+x15: 1
+x16: 0
+x17: 1
+x18: 1
+x19: 1
+x20: 0
+x21: 0
+x22: 0
+x23: 1
+x24: 1
+x25: 0
+x26: 1
+x27: 0
+x28: 0
+x29: 0
+x30: 0
+x31: 1
+x32: 1
+x33: 0
+x34: 1
+x35: 0
+x36: 1
+x37: 1
+x38: 0
+x39: 0
+x40: 0
+x41: 0
+x42: 1
+x43: 1
+x44: 1
+y00: 1
+y01: 0
+y02: 0
+y03: 1
+y04: 1
+y05: 0
+y06: 0
+y07: 0
+y08: 0
+y09: 0
+y10: 0
+y11: 1
+y12: 0
+y13: 1
+y14: 0
+y15: 1
+y16: 0
+y17: 1
+y18: 0
+y19: 1
+y20: 1
+y21: 0
+y22: 1
+y23: 1
+y24: 0
+y25: 0
+y26: 0
+y27: 0
+y28: 0
+y29: 1
+y30: 0
+y31: 0
+y32: 1
+y33: 0
+y34: 1
+y35: 0
+y36: 1
+y37: 1
+y38: 0
+y39: 1
+y40: 1
+y41: 1
+y42: 1
+y43: 0
+y44: 1
+
+mjw AND bvt -> bjv
+y41 XOR x41 -> fkk
+
+pth AND djn -> mtn
+tjr OR hgs -> fkb
+
+
+x32 XOR y32 -> bvs
+
+
+x35 AND y35 -> dsc
+svn AND vsb -> fmg
+y38 AND x38 -> ngh
+x44 AND y44 -> tmh
+x37 XOR y37 -> bkk
+
+fmg OR rcq -> hth
+x42 XOR y42 -> jdh
+x42 AND y42 -> jsf
+
+chk AND pjd -> dqb
+wcn OR sqk -> smr
+jdk OR rpp -> mjw
+x43 XOR y43 -> djn
+y23 AND x23 -> rdt
+jfb OR jsf -> pth
+ksc AND jbs -> dkd
+y29 XOR x29 -> mfw
+y33 XOR x33 -> wsk
+
+kbs AND pwn -> sqk
+y41 AND x41 -> tjr
+ffp OR shb -> vbn
+x40 XOR y40 -> bvt
+
+y39 XOR x39 -> vqr
+
+
+nsr XOR gsd -> kdf
+
+x37 AND y37 -> ffp
+x43 AND y43 -> vcd
+hnr AND kdf -> htp
+x26 AND y26 -> tpw
+dqb OR dhv -> gsd
+wbp AND vbw -> vnj
+
+
+vgc OR vpq -> ksc
+rhm OR dkd -> chk
+
+dvh OR dnq -> fkt
+
+y40 AND x40 -> mbk
+qfg OR vwc -> vbw
+vbn AND vft -> rfr
+hth AND mfw -> qfg
+fkk AND gvm -> hgs
+
+y29 AND x29 -> vwc
+jvq OR htp -> ddt
+y24 AND x24 -> jvq
+kgf AND ftq -> wmv
+x35 XOR y35 -> rfc
+
+
+x25 AND y25 -> dnq
+
+y44 XOR x44 -> qcq
+dsc OR prv -> ftq
+wsk AND vms -> bpw
+
+vqr XOR vbt -> rpp
+y34 XOR x34 -> wpp
+rnt AND rfc -> prv
+dfh AND fvr -> qnd
+
+vcd OR mtn -> sjs
+
+y34 AND x34 -> cgd
+
+btn OR cgd -> rnt
+
+
+
+rth OR wmv -> rsj
+
+y19 AND x19 -> wcn
+kqm AND dmp -> vnn
+
+x22 AND y22 -> dhv
+y36 XOR x36 -> kgf
+y27 AND x27 -> dcr
+
+
+ktr OR bpw -> fdr
+x21 AND y21 -> rhm
+
+
+
+
+
+
+
+
+npq OR ckn -> vms
+wpp AND fdr -> btn
+bkt AND smr -> vgc
+x30 AND y30 -> tvj
+
+nsr AND gsd -> rqt
+x28 AND y28 -> rcq
+x20 AND y20 -> vpq
+dbw OR tpw -> fvr
+x36 AND y36 -> rth
+vnn OR jwg -> jth
+sjs AND qcq -> jwh
+
+
+rsj AND bkk -> shb
+x32 AND y32 -> ckn
+x38 XOR y38 -> vft
+fkb AND jdh -> jfb
+x31 XOR y31 -> kqm
+
+
+x31 AND y31 -> jwg
+jth AND bvs -> npq
+
+fkt AND tpb -> dbw
+bjv OR mbk -> gvm
+y39 AND x39 -> jdk
+
+
+rjd AND ddt -> dvh
+y33 AND x33 -> ktr
+qnd OR dcr -> vsb
+ngh OR rfr -> vbt
+y30 XOR x30 -> wbp
+tvj OR vnj -> dmp
+
+# Xor
+x00 XOR y00 -> z00 # Done
+y01 XOR x01 -> fps # Done
+x02 XOR y02 -> nfs # Done
+x03 XOR y03 -> qtf # Done
+y04 XOR x04 -> rqm # Done
+y05 XOR x05 -> wgk # Done
+x06 XOR y06 -> FDV # Done - Swapped with DBP
+x07 XOR y07 -> twn # Done
+x08 XOR y08 -> vvd # Done
+x09 XOR y09 -> pnd # Done
+y10 XOR x10 -> mtg # Done
+y11 XOR x11 -> gcg # Done
+y12 XOR x12 -> mtq # Done
+y13 XOR x13 -> fcm # Done
+y14 XOR x14 -> ths # Done
+x15 XOR y15 -> fqf # Done
+x16 XOR y16 -> ftv # Done
+y17 XOR x17 -> qdh # Done
+x18 XOR y18 -> fgn # Done
+y19 XOR x19 -> pwn # Done
+x20 XOR y20 -> bkt
+y21 XOR x21 -> jbs
+y22 XOR x22 -> pjd
+y23 XOR x23 -> nsr
+y24 XOR x24 -> hnr
+x25 XOR y25 -> rjd
+y26 XOR x26 -> tpb
+y27 XOR x27 -> dfh
+x28 XOR y28 -> svn
+
+# Carries
+x00 AND y00 -> rfg # First carry
+
+fps AND rfg -> fdn
+x01 AND y01 -> hnq
+fdn OR hnq -> mvw # Second Carry
+
+mvw AND nfs -> jqp
+x02 AND y02 -> hvw
+jqp OR hvw -> tgm # Third Carry
+
+tgm AND qtf -> pkr
+x03 AND y03 -> dcf
+dcf OR pkr -> pgm # Forth Carry
+
+pgm AND rqm -> jmf
+x04 AND y04 -> ppf
+ppf OR jmf -> dpb # Fifth
+
+dpb AND wgk -> jwp
+x05 AND y05 -> frt
+frt OR jwp -> vjf # Sixth
+
+vjf AND fdv -> wdv
+y06 AND x06 -> DBP # Swapped with FDV
+wdv OR dbp -> njm # Seventh
+
+njm AND twn -> rgn
+x07 AND y07 -> rnh
+rgn OR rnh -> pjs # Eighth
+
+pjs AND vvd -> cfn
+y08 AND x08 -> ndk
+cfn OR ndk -> sbb # Nineth
+
+pnd AND sbb -> jpj
+x09 AND y09 -> ggk
+jpj OR ggk -> vpn # Tenth
+
+vpn AND mtg -> pbg
+x10 AND y10 -> wkd
+wkd OR pbg -> mwj # Eleventh
+
+gcg AND mwj -> gsq
+y11 AND x11 -> cdk
+cdk OR gsq -> kvm # Twelveth
+
+kvm AND mtq -> qtv
+x12 AND y12 -> gnr
+gnr OR qtv -> swg # Thirteenth
+
+fcm AND swg -> nwq
+y13 AND x13 -> nhj
+nhj OR nwq -> kwr # Fourteenth
+
+kwr AND ths -> qqp
+y14 AND x14 -> prf
+prf OR qqp -> qbw # Fiftheenth
+
+qbw AND fqf -> pkt
+x15 AND y15 -> CKJ # SWAPPED Z15 with CKJ
+pkt OR ckj -> sjd # Sixteenth
+
+sjd AND ftv -> rgk
+x16 AND y16 -> wfs
+rgk OR wfs -> kbf # Seventeenth
+
+kbf AND qdh -> sqp
+y17 AND x17 -> mbd
+sqp OR mbd -> phr # Eighteenth
+
+fgn AND phr -> mqr
+y18 AND x18 -> tpt
+mqr OR tpt -> kbs # Nineteenth
+
+# Working
+
+
+# Z
+x00 XOR y00 -> z00 # Correct
+fps XOR rfg -> z01 # Correct
+nfs XOR mvw -> z02 # Correct
+qtf XOR tgm -> z03 # Correct
+rqm XOR pgm -> z04 # Correct
+wgk XOR dpb -> z05 # Correct
+fdv XOR vjf -> z06 # Correct - SWAPPED FDV and DBP
+twn XOR njm -> z07 # Correct
+vvd XOR pjs -> z08 # Correct
+pnd XOR sbb -> z09 # Correct
+mtg XOR vpn -> z10 # Correct
+gcg XOR mwj -> z11 # Correct
+mtq XOR kvm -> z12 # Correct
+fcm XOR swg -> z13 # Correct
+ths XOR kwr -> z14 # Correct
+fqf XOR qbw -> Z15 # Correct - SWAPPED CKJ with Z15
+ftv XOR sjd -> z16 # Correct
+qdh XOR kbf -> z17 # Correct
+fgn XOR phr -> z18 # Correct
+pwn XOR kbs -> z19 # Correct
+smr XOR bkt -> z20
+jbs XOR ksc -> z21
+pjd XOR chk -> z22
+rqt OR rdt -> z23
+hnr XOR kdf -> z24
+ddt XOR rjd -> z25
+fkt XOR tpb -> z26
+dfh XOR fvr -> z27
+vsb XOR svn -> z28
+mfw XOR hth -> z29
+wbp XOR vbw -> z30
+kqm XOR dmp -> z31
+bvs XOR jth -> z32
+vms XOR wsk -> z33
+fdr XOR wpp -> z34
+rnt XOR rfc -> z35
+kgf XOR ftq -> z36
+rsj XOR bkk -> z37
+vft XOR vbn -> z38
+vbt AND vqr -> z39
+mjw XOR bvt -> z40
+gvm XOR fkk -> z41
+jdh XOR fkb -> z42
+djn XOR pth -> z43
+sjs XOR qcq -> z44
+jwh OR tmh -> z45
+
+# Swaps
+1. FDV and DBP
+2. CKJ and Z15
+3.
+4.
+
